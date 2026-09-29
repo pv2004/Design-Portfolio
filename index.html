@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Fonts are bundled from src/fonts/ by Vite, so no third-party asset CDN
+         is contacted. All imagery is local under public/asset/. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Vineeth — creative video editor, photographer & content creator crafting cinematic travel films, tech content and high-retention Reels.">
+    <meta name="theme-color" content="#FCFBF9">
+    <meta property="og:title" content="Vineeth | Video Editor, Photographer & Content Creator">
+    <meta property="og:description" content="Creative video editor crafting cinematic travel films, tech content and engaging Instagram Reels.">
+    <meta property="og:type" content="website">
+
+    <!-- SOCIAL PREVIEW IMAGE
+         Replace this placeholder with your live origin, no trailing slash, e.g.
+         https://vineeth.github.io/portfolio . Facebook, WhatsApp and Instagram
+         will not resolve a relative og:image, so it has to be absolute.
+         `npm run check` deliberately fails while the placeholder is present,
+         so a blank share card cannot ship unnoticed. -->
+    <link rel="canonical" href="https://vineeth.com/">
+    <meta property="og:url" content="https://vineeth.com/">
+    <meta property="og:site_name" content="Pabolu Vineeth — Portfolio">
+    <meta property="og:image" content="https://vineeth.com/asset/og-image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Vineeth — creative video editor and photographer, working on cinematic travel films, tech content and short films.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://vineeth.com/asset/og-image.jpg">
+    <meta name="twitter:image:alt" content="Vineeth — creative video editor and photographer, working on cinematic travel films, tech content and short films.">
+    <title>Vineeth | Video Editor, Photographer &amp; Content Creator</title>
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23FF6B00"/><text x="32" y="43" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">V</text></svg>'>
+    <!-- Above-fold media: start fetching in parallel with CSS/JS so the
+         hero stamp + arrow are ready by first paint. The fonts need no preload
+         entry because Vite fingerprints and emits them with the CSS. -->
+    <link rel="preload" as="image" href="asset/hero-stamp-base.png" fetchpriority="high">
+    <link rel="preload" as="image" href="asset/hero-stamp-photo.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="asset/hero-arrow.svg" fetchpriority="high">
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/overrides.css">
+    <noscript>
+        <style>
+            /* Graceful no-JS: reveal everything, drop the preloader. */
+            #portfolio-loader { display: none; }
+            .hero-v2__tag,
+            .hero-v2__headline,
+            .hero-v2__stamp,
+            .hero-v2__credit {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        </style>
+    </noscript>
+    <!-- Homepage: Bricolage only (serif/display felt webfonts load lazily via
+         the @font-face blocks at the top of style.css). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <a class="skip-link" href="#work">Skip to content</a>
+
+    <!-- Full-screen preload until core scripts are ready (portfolio-loader-* in style.css + script.js) -->
+    <div id="portfolio-loader" class="portfolio-loader" aria-live="polite" aria-busy="true" role="status"
+        aria-valuetext="Loading portfolio">
+        <div class="portfolio-loader__grid" aria-hidden="true"></div>
+        <div class="portfolio-loader__stage">
+            <div class="portfolio-loader__orbit">
+                <span class="portfolio-loader__pixel" aria-hidden="true"></span>
+                <span class="portfolio-loader__pixel" aria-hidden="true"></span>
+                <span class="portfolio-loader__pixel" aria-hidden="true"></span>
+                <span class="portfolio-loader__pixel" aria-hidden="true"></span>
+                <span class="portfolio-loader__pixel" aria-hidden="true"></span>
+                <span class="portfolio-loader__pixel" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var body = document.body;
+            body.classList.add('portfolio-loader-active');
+
+            // Independent failsafe: reveal the page even if the module script
+            // is blocked, delayed, or throws before its own loader cleanup.
+            window.setTimeout(function () {
+                body.classList.remove('portfolio-loader-active');
+                body.classList.add('hero-in');
+            }, 4500);
+
+            try {
+                if (localStorage.getItem('portfolio-theme') === 'dark') {
+                    body.classList.add('night-mode');
+                }
+            } catch (e) { /* storage can be unavailable in private contexts */ }
+        })();
+    </script>
+    <script>
+        // Mirrors the reference portfolio's artboard bootstrap:
+        //   desktop artboard is 1440px wide, mobile artboard is 360px wide.
+        //   --grid-scale keeps the hero artboard and the body dot grid aligned.
+        (function () {
+            function setGridScale() {
+                var vw = document.documentElement.clientWidth || window.innerWidth || 0;
+                var zoom = parseFloat(
+                    getComputedStyle(document.documentElement).getPropertyValue('--hero-v2-zoom')
+                ) || 0.9;
+                var scale;
+                if (vw <= 768) {
+                    scale = Math.min(vw, 430) / 360;
+                } else {
+                    scale = Math.min(1, vw / 1440) * zoom;
+                }
+                document.documentElement.style.setProperty('--grid-scale', String(scale));
+            }
+            function setNavHeight() {
+                var nav = document.querySelector('[data-site-header]');
+                if (!nav) return;
+                var h = nav.getBoundingClientRect().height;
+                if (h > 0) {
+                    document.documentElement.style.setProperty('--hero-nav-h', h + 'px');
+                }
+            }
+            setGridScale();
+            requestAnimationFrame(function () {
+                requestAnimationFrame(setNavHeight);
+            });
+            window.addEventListener('load', setNavHeight);
+            window.addEventListener('resize', function () {
+                setGridScale();
+                setNavHeight();
+            }, { passive: true });
+        })();
+    </script>
+
+    <div data-site-header data-page="home"></div>
+
+    <!-- Dappled-light shader strip — pinned to the page's top-right edge so
+         it can extend above .hero-v2 (which uses overflow:hidden). It scrolls
+         with the document. script.js drives a lightweight canvas shimmer. -->
+    <div class="hero-v2__dappled" aria-hidden="true">
+        <canvas id="hero-dappled-canvas" class="hero-v2__dappled-canvas"></canvas>
+    </div>
+
+    <main>
+        <!-- Hero V2 — scaled artboard (1440px design frame, --grid-scale) -->
+        <section class="hero-v2" aria-label="Introduction">
+            <div class="hero-v2__frame">
+                <span class="hero-v2__pixel hero-v2__pixel--l1" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--l2" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--l3" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--l4" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--l5" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--l6" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--l7" aria-hidden="true"></span>
+
+                <span class="hero-v2__pixel hero-v2__pixel--r1" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--r2" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--r3" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--r4" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--r5" aria-hidden="true"></span>
+                <span class="hero-v2__pixel hero-v2__pixel--r6" aria-hidden="true"></span>
+
+                <div class="hero-v2__content">
+                    <div class="hero-v2__grid" aria-hidden="true">
+                        <span class="hero-v2__corner hero-v2__corner--tl"></span>
+                        <span class="hero-v2__corner hero-v2__corner--tr"></span>
+                        <span class="hero-v2__corner hero-v2__corner--bl"></span>
+                        <span class="hero-v2__corner hero-v2__corner--br"></span>
+                        <span class="hero-v2__line hero-v2__line--h1"></span>
+                        <span class="hero-v2__line hero-v2__line--h2"></span>
+                        <span class="hero-v2__line hero-v2__line--h3"></span>
+                        <span class="hero-v2__line hero-v2__line--h4"></span>
+                        <span class="hero-v2__line hero-v2__line--v1"></span>
+                        <span class="hero-v2__line hero-v2__line--v2"></span>
+                        <span class="hero-v2__line hero-v2__line--v3"></span>
+                        <span class="hero-v2__line hero-v2__line--v4"></span>
+                    </div>
+
+                    <span class="hero-v2__tag">Hi, I'm <em>Vineeth</em></span>
+
+                    <h1 class="hero-v2__headline">
+                        <span class="hero-v2__headline-line">creative video editor,</span>
+                        <span class="hero-v2__headline-line">photographer &amp; content creator,</span>
+                        <span class="hero-v2__headline-line">telling <em>stories</em> people remember</span>
+                    </h1>
+
+                    <!-- Hand-lettered credit note + curly arrow pointing up
+                         toward the headline. Lazy Dog face loads via @font-face
+                         at the top of style.css. -->
+                    <div class="hero-v2__credit" aria-label="Creating at vineeth.fps">
+                        <span class="hero-v2__credit-text">Creating @vineeth.fps</span>
+                        <img class="hero-v2__credit-arrow" src="asset/hero-arrow.svg" alt="" aria-hidden="true" width="85" height="90" fetchpriority="high" decoding="async">
+                    </div>
+                </div>
+
+                <!-- Postage-stamp portrait. Swap asset/hero-stamp-photo.svg with
+                     your own photo for a personal touch. -->
+                <div class="hero-v2__stamp" aria-hidden="true">
+                    <img class="hero-v2__stamp-base" src="asset/hero-stamp-base.png" alt="" width="404" height="516" fetchpriority="high" decoding="async">
+                    <div class="hero-v2__stamp-photo-frame">
+                        <img class="hero-v2__stamp-photo" src="asset/hero-stamp-photo.svg" alt="" width="306" height="404" fetchpriority="high" decoding="async">
+                    </div>
+                </div>
+                <svg class="hero-v2__filters" width="0" height="0" aria-hidden="true" focusable="false">
+                    <filter id="hero-stamp-guilloche-filter" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+                        <feColorMatrix in="SourceGraphic" type="saturate" values="0" result="gray"/>
+                        <feComponentTransfer in="gray" result="mono">
+                            <feFuncR type="linear" slope="1.18" intercept="-0.05"/>
+                            <feFuncG type="linear" slope="1.18" intercept="-0.05"/>
+                            <feFuncB type="linear" slope="1.18" intercept="-0.05"/>
+                        </feComponentTransfer>
+                        <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="guilloche" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 380'%3E%3Crect width='300' height='380' fill='%23f4f4f4'/%3E%3Cg fill='none' stroke='%23262626' stroke-width='0.8' opacity='0.5'%3E%3Cellipse cx='150' cy='190' rx='146' ry='34'/%3E%3Cellipse cx='150' cy='190' rx='130' ry='52'/%3E%3Cellipse cx='150' cy='190' rx='112' ry='72'/%3E%3Cellipse cx='150' cy='190' rx='92' ry='92'/%3E%3Cellipse cx='150' cy='190' rx='72' ry='114'/%3E%3Cellipse cx='150' cy='190' rx='52' ry='136'/%3E%3C/g%3E%3Cg fill='none' stroke='%231a1a1a' stroke-width='0.7' opacity='0.38' transform='rotate(28 150 190)'%3E%3Cellipse cx='150' cy='190' rx='148' ry='38'/%3E%3Cellipse cx='150' cy='190' rx='130' ry='58'/%3E%3Cellipse cx='150' cy='190' rx='108' ry='78'/%3E%3Cellipse cx='150' cy='190' rx='86' ry='100'/%3E%3Cellipse cx='150' cy='190' rx='64' ry='122'/%3E%3C/g%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.75' opacity='0.5' transform='rotate(-24 150 190)'%3E%3Cellipse cx='150' cy='190' rx='142' ry='42'/%3E%3Cellipse cx='150' cy='190' rx='120' ry='62'/%3E%3Cellipse cx='150' cy='190' rx='98' ry='84'/%3E%3Cellipse cx='150' cy='190' rx='76' ry='106'/%3E%3C/g%3E%3C/svg%3E"/>
+                        <feBlend in="mono" in2="guilloche" mode="multiply" result="etched"/>
+                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="grain"/>
+                        <feBlend in="etched" in2="grain" mode="soft-light"/>
+                    </filter>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section" id="projects">
+            <div class="container" id="work">
+                <div class="projects-wrapper">
+                    <div class="projects-header">
+                        <h2 class="projects-title">tiny fraction of my work</h2>
+                        <!-- Single source of truth for the tools list. The "about me"
+                             resume modal builds its "Tools of the trade" tags from
+                             these <li> elements, so edit them here only. -->
+                        <ul class="projects-tools" aria-label="Tools I work with">
+                            <li class="projects-tools__tag">Premiere Pro</li>
+                            <li class="projects-tools__tag">DaVinci Resolve</li>
+                            <li class="projects-tools__tag">CapCut</li>
+                            <li class="projects-tools__tag">Photoshop</li>
+                            <li class="projects-tools__tag">Lightroom</li>
+                        </ul>
+                    </div>
+                    <!-- Work Wall Display (Bento Grid) -->
+                    <div class="work-container bento-grid" id="work-wall">
+                        <a class="work-card card-1" data-project="cinematic-travel" data-parallax="0.05"
+                            data-title="Cinematic Travel Films"
+                            data-desc="Aerial shots captured &amp; graded on the go"
+                            href="https://instagram.com/vineeth.fps" target="_blank" rel="noopener noreferrer">
+                            <div class="card-content" data-lazy-bg="asset/videos/spiti_drone-poster.webp">
+                            </div>
+                            <div class="work-card__meta">
+                                <span class="work-card__marker" aria-hidden="true"></span>
+                                <h3 class="work-card__title">Cinematic Travel Films</h3>
+                                <p class="work-card__desc">Aerial shots captured &amp; graded on the go</p>
+                            </div>
+                        </a>
+                        <a class="work-card card-2" data-project="tech-content" data-parallax="-0.08"
+                            data-title="Tech Content Production"
+                            data-desc="Product &amp; gadget edits for tech page"
+                            href="https://instagram.com/vineeth.fps" target="_blank" rel="noopener noreferrer">
+                            <div class="card-content" data-lazy-bg="asset/videos/battery-info-poster.webp">
+                            </div>
+                            <div class="work-card__meta">
+                                <span class="work-card__marker" aria-hidden="true"></span>
+                                <h3 class="work-card__title">Tech Content Production</h3>
+                                <p class="work-card__desc">Product &amp; gadget edits for tech page</p>
+                            </div>
+                        </a>
+                        <a class="work-card card-3" data-project="cinematic-short-film" data-parallax="0.1"
+                            data-title="Cinematic Short Films"
+                            data-desc="Story-led edits built around one beat"
+                            href="https://instagram.com/vineeth.fps" target="_blank" rel="noopener noreferrer">
+                            <div class="card-content" data-lazy-bg="asset/videos/cinematic-story-poster.webp">
+                            </div>
+                            <div class="work-card__meta">
+                                <span class="work-card__marker" aria-hidden="true"></span>
+                                <h3 class="work-card__title">Cinematic Short Films</h3>
+                                <p class="work-card__desc">Story-led edits built around one beat</p>
+                            </div>
+                        </a>
+                        <a class="work-card card-4" data-project="city-film-style" data-parallax="-0.03"
+                            data-title="City Film-Style Edits"
+                            data-desc="Malaysia, shot vertical in a filmic style"
+                            href="https://instagram.com/vineeth.fps" target="_blank" rel="noopener noreferrer">
+                            <div class="card-content" data-lazy-bg="asset/videos/in-malaysia-poster.webp">
+                            </div>
+                            <div class="work-card__meta">
+                                <span class="work-card__marker" aria-hidden="true"></span>
+                                <h3 class="work-card__title">City Film-Style Edits</h3>
+                                <p class="work-card__desc">Malaysia, shot vertical in a filmic style</p>
+                            </div>
+                        </a>
+                    </div> <!-- End of bento-grid -->
+                    <div style="text-align: center; margin-top: 40px;">
+                        <a class="resume-summary__btn" href="https://drive.google.com/drive/folders/12JtAqFJH5mRcI_e_NMV_anU28ijZhUmj?usp=drive_link" target="_blank" rel="noopener noreferrer" style="font-size: 1.1rem; padding: 14px 28px; display: inline-flex; align-items: center; gap: 8px;">
+                            <img src="asset/social-drive.svg" alt="Google Drive" width="20" height="20" style="filter: brightness(0) invert(1);">
+                            Explore More Work on Google Drive
+                        </a>
+                    </div>
+                </div> <!-- End of projects-wrapper -->
+            </div>
+        </section>
+
+        <!-- Project video player — populated from src/data/projects.js -->
+        <dialog class="project-player" id="project-player" aria-labelledby="project-player-title" aria-describedby="project-player-description">
+            <div class="project-player__panel">
+                <header class="project-player__header">
+                    <div>
+                        <p class="project-player__eyebrow">Now playing</p>
+                        <h2 class="project-player__title" id="project-player-title">Project preview</h2>
+                    </div>
+                    <button type="button" class="project-player__close" data-player-close aria-label="Close video player">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                </header>
+
+                <div class="project-player__media">
+                    <video id="project-player-video" controls playsinline preload="metadata"></video>
+                </div>
+
+                <footer class="project-player__footer">
+                    <p id="project-player-description"></p>
+                    <a class="project-player__link" id="project-player-link" href="#" target="_blank" rel="noopener noreferrer">
+                        Open project
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                            <path d="M4 10 10 4M5 4h5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </footer>
+            </div>
+        </dialog>
+
+        <!-- Beyond the Pixels Section -->
+        <section class="projects-section" id="beyond">
+            <div class="container">
+                <div class="projects-wrapper">
+                    <div class="beyond-header">
+                        <h2 class="projects-title">beyond the pixels</h2>
+                    </div>
+                    <div class="beyond-pixels-stage">
+                        <div class="beyond-info-overlay">
+                            <p class="beyond-subtitle">
+                                I chase light with my camera and cut stories with rhythm — cinematic
+                                travel films, tech explainers, and short films built around a single
+                                beat. Catch me behind the lens at SRM festivals.
+                            </p>
+                            <p class="beyond-note">feel free to connect for cool projects</p>
+                            <div class="beyond-illustration" aria-hidden="true">
+                                <img class="beyond-illustration__camera" data-src="asset/beyond-pixels-icons/beyond-illustration-camera.png" alt="" decoding="async" fetchpriority="low">
+                                <img class="beyond-illustration__film-roll" data-src="asset/beyond-pixels-icons/beyond-illustration-film-roll.png" alt="" decoding="async" fetchpriority="low">
+                                <img class="beyond-illustration__flower" data-src="asset/beyond-pixels-icons/beyond-illustration-flower.png" alt="" decoding="async" fetchpriority="low">
+                                <img class="beyond-illustration__notebook" data-src="asset/beyond-pixels-icons/beyond-illustration-notebook.png" alt="" decoding="async" fetchpriority="low">
+                            </div>
+                        </div>
+                        <div class="museum-stage">
+                            <div class="wrapper-3d" id="stage-wrapper">
+                                <div class="fold fold-top">
+                                    <div class="fold-align">
+                                        <div class="fold-content" id="content-top"></div>
+                                    </div>
+                                </div>
+                                <div class="fold fold-center" id="center-fold">
+                                    <div class="fold-align">
+                                        <div class="fold-content" id="content-center"></div>
+                                    </div>
+                                </div>
+                                <div class="fold fold-bottom">
+                                    <div class="fold-align">
+                                        <div class="fold-content" id="content-bottom"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div data-site-footer></div>
+
+    </main>
+
+    <script type="module" src="src/script.js"></script>
+
+</body>
+
+</html>

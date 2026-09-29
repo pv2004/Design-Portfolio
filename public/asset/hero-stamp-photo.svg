@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306" height="404" viewBox="0 0 306 404">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3E2514"/>
+      <stop offset="0.55" stop-color="#653A21"/>
+      <stop offset="1" stop-color="#241209"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.55"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.16"/>
+      </feComponentTransfer>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+  <rect width="306" height="404" fill="url(#bg)"/>
+  <ellipse cx="153" cy="120" rx="62" ry="72" fill="#87451F" opacity="0.85"/>
+  <rect x="68" y="196" width="170" height="170" rx="20" fill="#54301B" opacity="0.8"/>
+  <g fill="none" stroke="#F3D9BC" stroke-width="1.2">
+    <path d="M40 30 H266 M40 374 H266" opacity="0.35"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="150" font-weight="700" fill="none" stroke="#F5E6D3" stroke-width="2" opacity="0.9">
+    <text x="153" y="250" text-anchor="middle">V</text>
+  </g>
+  <rect width="306" height="404" fill="url(#vignette)"/>
+  <rect width="306" height="404" filter="url(#grain)" opacity="0.6"/>
+</svg>

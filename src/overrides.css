@@ -1,0 +1,358 @@
+/* ==========================================================================
+   Vineeth portfolio — context overrides on top of the reference art system.
+   Faithful to the reference home page; these only adapt the page for:
+     - touch devices / reduced-motion users (no hidden cursors)
+     - the self-contained footer grass animation (canvas overlay)
+     - Vineeth-specific pieces (placeholder stamp, resume modal, skip link)
+   ========================================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Skip link --------------------------------------------------------------- */
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 16px;
+    z-index: 10001;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #ff7438;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: var(--t-weight-medium, 500);
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+    top: 12px;
+}
+
+/* Lock page scroll while the preloader is up, then let it breathe --------- */
+body.portfolio-loader-active {
+    overflow: hidden;
+}
+
+/* Custom cursor only makes sense with a fine pointer + motion allowed ----- */
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .cursor-dot,
+    #custom-cursor-label {
+        display: none !important;
+    }
+    .hero-v2__tag,
+    .work-card,
+    .footer-sticker-stack {
+        cursor: auto !important;
+    }
+}
+
+/* Keep the replacement dot invisible until the first real pointer event. */
+.cursor-dot {
+    opacity: 0;
+}
+
+.cursor-dot.is-ready {
+    opacity: 1;
+}
+
+/* Dappled-light canvas ------------------------------------------------------ */
+.hero-v2__dappled-canvas,
+#hero-dappled-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+}
+
+/* Footer grass animation overlay (canvas replaces the reference iframe) ----- */
+#footer-grass-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Native button reset for the injected mobile navigation control. */
+.mobile-menu-btn {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    touch-action: manipulation;
+}
+
+.mobile-menu-btn:focus-visible {
+    outline: 2px solid #ff7438;
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+/* Hero intro reveal — played once the preloader is dismissed ----------------
+   body.hero-in is added by script.js right after the loader hides. */
+.hero-v2__tag,
+.hero-v2__headline,
+.hero-v2__stamp,
+.hero-v2__credit {
+    transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.portfolio-loader-active .hero-v2__tag,
+body.portfolio-loader-active .hero-v2__headline,
+body.portfolio-loader-active .hero-v2__stamp,
+body.portfolio-loader-active .hero-v2__credit {
+    opacity: 0;
+    transform: translateY(22px);
+}
+
+body.hero-in .hero-v2__tag,
+body.hero-in .hero-v2__headline,
+body.hero-in .hero-v2__stamp,
+body.hero-in .hero-v2__credit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.hero-in .hero-v2__tag {
+    transition-delay: 0.1s;
+}
+
+body.hero-in .hero-v2__headline {
+    transition-delay: 0.22s;
+}
+
+body.hero-in .hero-v2__credit {
+    transition-delay: 0.34s;
+}
+
+body.hero-in .hero-v2__stamp {
+    transition-delay: 0.46s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-v2__tag,
+    .hero-v2__headline,
+    .hero-v2__stamp,
+    .hero-v2__credit {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* Reveal-on-scroll helper for sections/cards ------------------------------- */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].is-inview {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* Resume / about modal — the reference modal previews a PDF image; here we
+   render Vineeth's story as a compact card. -------------------------------- */
+.resume-modal__preview {
+    display: block;
+    max-height: calc(100vh - 160px);
+    overflow: auto;
+    border-radius: 20px;
+}
+
+.resume-summary {
+    background: #fffaee;
+    border: 1px solid #e5dcc6;
+    border-radius: 20px;
+    padding: clamp(20px, 3vw, 36px);
+    max-width: 560px;
+    text-align: left;
+    color: #3e2514;
+}
+
+body.night-mode .resume-summary {
+    background: #241b30;
+    border-color: #3a2f4c;
+    color: #efe7f6;
+}
+
+.resume-summary__name {
+    margin: 0 0 2px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
+
+.resume-summary__role {
+    margin: 0 0 18px;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: var(--t-weight-medium, 500);
+    color: #8a6a4a;
+}
+
+body.night-mode .resume-summary__role {
+    color: #b7a6cf;
+}
+
+.resume-summary__block {
+    margin: 16px 0 0;
+}
+
+.resume-summary__block-title {
+    margin: 0 0 6px;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: var(--t-weight-semibold, 600);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ff7438;
+}
+
+.resume-summary__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.resume-summary__list li {
+    position: relative;
+    padding-left: 14px;
+    margin: 5px 0;
+    font-family: var(--font-sans);
+    font-size: 0.94rem;
+    line-height: 1.45;
+    color: inherit;
+}
+
+.resume-summary__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #98eeb7;
+}
+
+/* Experience entries stack the role over its detail rather than joining them
+   with an em dash, so the job title stays scannable and the dates read as a
+   second line. opacity instead of a colour keeps the muted line legible in
+   both themes without a per-theme override. */
+.resume-summary__job {
+    display: block;
+    font-weight: 600;
+}
+
+.resume-summary__meta {
+    display: block;
+    font-size: 0.86rem;
+    line-height: 1.4;
+    opacity: 0.72;
+}
+
+.resume-summary__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.resume-summary__tag {
+    padding: 6px 12px;
+    border: 1px solid #e0d4b8;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: var(--t-weight-medium, 500);
+    color: inherit;
+}
+
+body.night-mode .resume-summary__tag {
+    border-color: #40344f;
+}
+
+.resume-summary__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.resume-summary__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border-radius: 999px;
+    background: #ff7438;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: var(--t-weight-medium, 500);
+    line-height: 1;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.resume-summary__btn:hover,
+.resume-summary__btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(255, 107, 0, 0.32);
+}
+
+.resume-summary__btn--ghost {
+    background: transparent;
+    border: 1px solid currentColor;
+    box-shadow: none;
+}
+
+/* Work cards are real links; keep their native link styling out of the art. */
+#work-wall .work-card {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Focus rings everywhere (the reference hides native outlines) ------------- */
+a:focus-visible,
+button:focus-visible,
+[role='link']:focus-visible,
+[role='button']:focus-visible,
+.work-card:focus-visible {
+    outline: 2px solid #ff7438;
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+/* Small niceties ------------------------------------------------------------ */
+body.night-mode {
+    transition:
+        background-color 0.4s ease,
+        color 0.4s ease;
+}
+
+/* Keep the reference guilt-free: if JS never runs, the stamp monogram still
+   renders and the canvas layers simply stay transparent. */
