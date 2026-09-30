@@ -1737,13 +1737,14 @@ body.night-mode .hero-v2__credit-arrow {
     font-size: 0.78rem;
     font-weight: var(--t-weight-medium, 500);
     line-height: 1.4;
-    color: inherit;
+    color: #3E2514;
     white-space: nowrap;
     user-select: none;
 }
 
 body.night-mode .projects-tools__tag {
     border-color: #40344f;
+    color: #efe7f6;
 }
 
 

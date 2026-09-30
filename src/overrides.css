@@ -288,11 +288,13 @@ body.night-mode .resume-summary__role {
     font-family: var(--font-sans);
     font-size: 0.82rem;
     font-weight: var(--t-weight-medium, 500);
-    color: inherit;
+    color: #3e2514;
+    background-color: transparent;
 }
 
 body.night-mode .resume-summary__tag {
     border-color: #40344f;
+    color: #efe7f6;
 }
 
 .resume-summary__contact {
