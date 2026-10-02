@@ -328,8 +328,13 @@ body.night-mode .resume-summary__tag {
 
 .resume-summary__btn--ghost {
     background: transparent;
+    color: #3e2514;
     border: 1px solid currentColor;
     box-shadow: none;
+}
+
+body.night-mode .resume-summary__btn--ghost {
+    color: #efe7f6;
 }
 
 /* Work cards are real links; keep their native link styling out of the art. */
@@ -358,3 +363,78 @@ body.night-mode {
 
 /* Keep the reference guilt-free: if JS never runs, the stamp monogram still
    renders and the canvas layers simply stay transparent. */
+
+/* Under Construction Widget ------------------------------------------------ */
+.under-construction-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fffaee;
+    border: 1px solid #e5dcc6;
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    animation: slideUpBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 2.5s; /* Wait for preloader */
+    opacity: 0;
+    transform: translateY(40px);
+    cursor: default;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.night-mode .under-construction-widget {
+    background: #241b30;
+    border-color: #3a2f4c;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.under-construction-widget:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+body.night-mode .under-construction-widget:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.under-construction-icon {
+    font-size: 1.5rem;
+    animation: floatIcon 2s ease-in-out infinite;
+}
+
+.under-construction-text {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-sans);
+    color: #3e2514;
+}
+
+body.night-mode .under-construction-text {
+    color: #efe7f6;
+}
+
+.under-construction-text strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.under-construction-text span {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+@keyframes slideUpBounce {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
