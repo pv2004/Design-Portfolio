@@ -58,7 +58,18 @@ import { projectBySlug } from './data/projects.js';
 
     function applyStoredTheme() {
         let theme = 'light';
-        try { theme = localStorage.getItem(THEME_STORAGE_KEY) || 'light'; } catch { /* ignore */ }
+        
+        // Check URL parameters first for cross-site syncing
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('theme')) {
+            theme = urlParams.get('theme');
+            try { localStorage.setItem(THEME_STORAGE_KEY, theme); } catch { /* ignore */ }
+            // Clean up the URL so the parameter disappears after loading
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else {
+            try { theme = localStorage.getItem(THEME_STORAGE_KEY) || 'light'; } catch { /* ignore */ }
+        }
+        
         document.body.classList.toggle('night-mode', theme === 'dark');
         syncThemeToggles();
     }
@@ -68,6 +79,13 @@ import { projectBySlug } from './data/projects.js';
         $$('[data-theme-toggle]').forEach((btn) => {
             btn.setAttribute('aria-checked', String(night));
             btn.setAttribute('aria-label', night ? 'Switch to light mode' : 'Switch to dark mode');
+        });
+
+        // Keep the Code/Art toggle links updated with the current theme
+        $$('.portfolio-toggle__btn:not(.is-active)').forEach(btn => {
+            const baseUrl = btn.getAttribute('data-base-url') || btn.href.split('?')[0];
+            if (!btn.hasAttribute('data-base-url')) btn.setAttribute('data-base-url', baseUrl);
+            btn.href = `${baseUrl}?theme=${night ? 'dark' : 'light'}`;
         });
     }
 
@@ -196,7 +214,12 @@ import { projectBySlug } from './data/projects.js';
                         <a href="#beyond" class="nav-item" data-nav-anchor="beyond">beyond</a>
                         <a href="#" class="nav-item nav-item--resume" data-resume-trigger aria-haspopup="dialog" aria-controls="resume-modal" aria-expanded="false">about me</a>
                         <a href="#contact" class="nav-item" data-nav-anchor="contact">contact</a>
-                                                
+                        
+                        <div class="portfolio-toggle">
+                            <a href="https://portfolio-site-pink-tau-19.vercel.app/" class="portfolio-toggle__btn" data-base-url="https://portfolio-site-pink-tau-19.vercel.app/" data-tooltip="View Engineering Portfolio">Code</a>
+                            <a href="#" class="portfolio-toggle__btn is-active" data-tooltip="You are here">Art</a>
+                        </div>
+                        
                         <button type="button" class="theme-toggle" data-theme-toggle role="switch" aria-checked="false" aria-label="Switch to dark mode">
                             <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -219,6 +242,10 @@ import { projectBySlug } from './data/projects.js';
 
                 <nav class="mobile-nav-overlay" id="mobile-nav-overlay" aria-label="Mobile navigation" aria-hidden="true" inert>
                     <div class="mobile-nav-overlay__header">
+                        <div class="portfolio-toggle">
+                            <a href="https://portfolio-site-pink-tau-19.vercel.app/" class="portfolio-toggle__btn" data-base-url="https://portfolio-site-pink-tau-19.vercel.app/" data-tooltip="View Engineering Portfolio">Code</a>
+                            <a href="#" class="portfolio-toggle__btn is-active" data-tooltip="You are here">Art</a>
+                        </div>
                         <button type="button" class="theme-toggle mobile-nav-overlay__theme-toggle" data-theme-toggle role="switch" aria-checked="false" aria-label="Switch to dark mode">
                             <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

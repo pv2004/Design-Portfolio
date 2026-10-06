@@ -438,3 +438,105 @@ body.night-mode .under-construction-text {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
 }
+
+
+/* Code/Art Portfolio Toggle Switch */
+.portfolio-toggle {
+    display: flex;
+    align-items: center;
+    background: #ebebe5;
+    padding: 4px;
+    border-radius: 999px;
+    gap: 4px;
+    margin-left: 12px;
+}
+
+body.night-mode .portfolio-toggle {
+    background: #1f1a24;
+}
+
+.portfolio-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8c8c82;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+body.night-mode .portfolio-toggle__btn {
+    color: #7b6d8d;
+}
+
+.portfolio-toggle__btn:hover {
+    color: #3e2514;
+}
+
+body.night-mode .portfolio-toggle__btn:hover {
+    color: #efe7f6;
+}
+
+.portfolio-toggle__btn.is-active {
+    background: #fff;
+    color: #ff7438;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    pointer-events: none; /* Cannot click the current site */
+}
+
+body.night-mode .portfolio-toggle__btn.is-active {
+    background: #2d2636;
+    color: #ff7438;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+    .portfolio-toggle {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+/* Code/Art Hover Tooltips */
+.portfolio-toggle__btn {
+    position: relative;
+}
+
+.portfolio-toggle__btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.portfolio-toggle__btn:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+body.night-mode .portfolio-toggle__btn::after {
+    background: #e8e8e8;
+    color: #1a1a1a;
+}
