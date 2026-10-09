@@ -62,12 +62,16 @@ import { projectBySlug } from './data/projects.js';
         // Check URL parameters first for cross-site syncing
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('theme')) {
-            theme = urlParams.get('theme');
+            const paramTheme = urlParams.get('theme');
+            theme = (paramTheme === 'dark' || paramTheme === 'light') ? paramTheme : 'light';
             try { localStorage.setItem(THEME_STORAGE_KEY, theme); } catch { /* ignore */ }
             // Clean up the URL so the parameter disappears after loading
             window.history.replaceState({}, document.title, window.location.pathname);
         } else {
-            try { theme = localStorage.getItem(THEME_STORAGE_KEY) || 'light'; } catch { /* ignore */ }
+            try {
+                const stored = localStorage.getItem(THEME_STORAGE_KEY);
+                theme = (stored === 'dark' || stored === 'light') ? stored : 'light';
+            } catch { /* ignore */ }
         }
         
         document.body.classList.toggle('night-mode', theme === 'dark');
@@ -85,7 +89,13 @@ import { projectBySlug } from './data/projects.js';
         $$('.portfolio-toggle__btn:not(.is-active)').forEach(btn => {
             const baseUrl = btn.getAttribute('data-base-url') || btn.href.split('?')[0];
             if (!btn.hasAttribute('data-base-url')) btn.setAttribute('data-base-url', baseUrl);
-            btn.href = `${baseUrl}?theme=${night ? 'dark' : 'light'}`;
+            try {
+                const url = new URL(baseUrl, window.location.origin);
+                url.searchParams.set('theme', night ? 'dark' : 'light');
+                btn.href = url.pathname + url.search + url.hash;
+            } catch {
+                btn.href = `${baseUrl}?theme=${night ? 'dark' : 'light'}`;
+            }
         });
     }
 
@@ -335,7 +345,7 @@ import { projectBySlug } from './data/projects.js';
                             </div>
 
                             <div class="resume-summary__contact">
-                                <a class="resume-summary__btn" href="asset/resume/vineeth_videoediting.pdf" target="_blank" download>Download Resume</a>
+                                <a class="resume-summary__btn" href="asset/resume/vineeth_videoediting.pdf" target="_blank" rel="noopener noreferrer" download>Download Resume</a>
                                 <a class="resume-summary__btn resume-summary__btn--ghost" href="https://drive.google.com/drive/folders/12JtAqFJH5mRcI_e_NMV_anU28ijZhUmj?usp=drive_link" target="_blank" rel="noopener noreferrer">More Work Samples</a>
                                 <a class="resume-summary__btn resume-summary__btn--ghost" href="mailto:harivineeth51@gmail.com">Say hello</a>
                                 <a class="resume-summary__btn resume-summary__btn--ghost" href="https://instagram.com/vineeth.fps" target="_blank" rel="noopener noreferrer">@vineeth.fps</a>
