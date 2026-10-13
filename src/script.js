@@ -92,7 +92,9 @@ import { projectBySlug } from './data/projects.js';
             try {
                 const url = new URL(baseUrl, window.location.origin);
                 url.searchParams.set('theme', night ? 'dark' : 'light');
-                btn.href = url.pathname + url.search + url.hash;
+                // Use the full absolute URL — pathname alone drops the origin
+                // and would turn the cross-site link into a same-site one.
+                btn.href = url.href;
             } catch {
                 btn.href = `${baseUrl}?theme=${night ? 'dark' : 'light'}`;
             }
@@ -225,11 +227,6 @@ import { projectBySlug } from './data/projects.js';
                         <a href="#" class="nav-item nav-item--resume" data-resume-trigger aria-haspopup="dialog" aria-controls="resume-modal" aria-expanded="false">about me</a>
                         <a href="#contact" class="nav-item" data-nav-anchor="contact">contact</a>
                         
-                        <div class="portfolio-toggle">
-                            <a href="https://portfolio-site-pink-tau-19.vercel.app/" class="portfolio-toggle__btn" data-base-url="https://portfolio-site-pink-tau-19.vercel.app/" data-tooltip="View Engineering Portfolio">Code</a>
-                            <a href="#" class="portfolio-toggle__btn is-active" data-tooltip="You are here">Art</a>
-                        </div>
-                        
                         <button type="button" class="theme-toggle" data-theme-toggle role="switch" aria-checked="false" aria-label="Switch to dark mode">
                             <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -252,10 +249,6 @@ import { projectBySlug } from './data/projects.js';
 
                 <nav class="mobile-nav-overlay" id="mobile-nav-overlay" aria-label="Mobile navigation" aria-hidden="true" inert>
                     <div class="mobile-nav-overlay__header">
-                        <div class="portfolio-toggle">
-                            <a href="https://portfolio-site-pink-tau-19.vercel.app/" class="portfolio-toggle__btn" data-base-url="https://portfolio-site-pink-tau-19.vercel.app/" data-tooltip="View Engineering Portfolio">Code</a>
-                            <a href="#" class="portfolio-toggle__btn is-active" data-tooltip="You are here">Art</a>
-                        </div>
                         <button type="button" class="theme-toggle mobile-nav-overlay__theme-toggle" data-theme-toggle role="switch" aria-checked="false" aria-label="Switch to dark mode">
                             <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

@@ -441,6 +441,18 @@ body.night-mode .under-construction-text {
 
 
 /* Code/Art Portfolio Toggle Switch */
+/* Floating wrapper: centers the pill horizontally just below the sticky
+   navbar (matches the engineering portfolio). It scrolls away with the page
+   and sits below the header's z-index so it tucks under the nav on scroll. */
+.portfolio-switch {
+    position: absolute;
+    top: calc(var(--hero-nav-h) + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 950;
+    pointer-events: none;
+}
+
 .portfolio-toggle {
     display: flex;
     align-items: center;
@@ -448,7 +460,17 @@ body.night-mode .under-construction-text {
     padding: 4px;
     border-radius: 999px;
     gap: 4px;
-    margin-left: 12px;
+}
+
+.portfolio-switch .portfolio-toggle {
+    pointer-events: auto;
+    border: 1px solid #E3E3D6;
+    box-shadow: 0 12px 32px rgba(23, 18, 12, 0.10);
+}
+
+body.night-mode .portfolio-switch .portfolio-toggle {
+    border-color: #3a3240;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 body.night-mode .portfolio-toggle {
@@ -497,9 +519,12 @@ body.night-mode .portfolio-toggle__btn.is-active {
 }
 
 @media (max-width: 768px) {
-    .portfolio-toggle {
-        margin-left: 0;
-        margin-right: auto;
+    .portfolio-switch {
+        top: calc(var(--hero-nav-h) + 6px);
+    }
+
+    .portfolio-toggle__btn {
+        padding: 6px 12px;
     }
 }
 

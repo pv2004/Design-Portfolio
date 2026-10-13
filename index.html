@@ -140,6 +140,15 @@
 
     <div data-site-header data-page="home"></div>
 
+    <!-- Code/Art portfolio switch — centered below the navbar (not inside it),
+         mirroring the engineering portfolio. Scrolls away with the page. -->
+    <div class="portfolio-switch">
+        <div class="portfolio-toggle">
+            <a href="https://portfolio-site-pink-tau-19.vercel.app/" class="portfolio-toggle__btn" data-base-url="https://portfolio-site-pink-tau-19.vercel.app/" data-tooltip="View Engineering Portfolio">Code</a>
+            <a href="#" class="portfolio-toggle__btn is-active" data-tooltip="You are here">Art</a>
+        </div>
+    </div>
+
     <!-- Dappled-light shader strip — pinned to the page's top-right edge so
          it can extend above .hero-v2 (which uses overflow:hidden). It scrolls
          with the document. script.js drives a lightweight canvas shimmer. -->
