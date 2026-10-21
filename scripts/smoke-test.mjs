@@ -9,7 +9,7 @@ const script = readFileSync(join(root, 'src/script.js'), 'utf8');
 const css = readFileSync(join(root, 'src/style.css'), 'utf8');
 
 const requiredAssets = [
-  'asset/hero-stamp-photo.svg',
+  'asset/hero-stamp-photo.jpg',
   'asset/videos/spiti_drone-poster.webp',
   'asset/videos/cinematic-story-poster.webp',
   'asset/videos/battery-info-poster.webp',

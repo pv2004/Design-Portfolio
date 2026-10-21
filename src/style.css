@@ -1104,13 +1104,6 @@ body.resume-modal-open {
     pointer-events: auto;
 }
 
-.hero-v2__filters {
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-}
-
 .hero-v2__stamp-photo {
     position: relative;
     z-index: 1;
@@ -1118,12 +1111,6 @@ body.resume-modal-open {
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    filter: url("#hero-stamp-guilloche-filter");
-    transition: filter 220ms ease;
-}
-
-.hero-v2__stamp-photo-frame:hover .hero-v2__stamp-photo {
-    filter: none;
 }
 
 /* Dappled-light shader overlay --------------------------------------------- */
