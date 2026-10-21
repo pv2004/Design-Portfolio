@@ -1341,8 +1341,14 @@ body.night-mode .hero-v2__dappled::before {
 /* Scale the whole artboard to fit the viewport (design ref: 1440×776).
    Driven by the shared --grid-scale so body dots + hero ruler move in lockstep. */
 @media (min-width: 769px) {
+    /* A transform doesn't shrink the element's layout box, so the artboard used
+       to reserve its full 776px height even when scaled down. That left a large
+       empty gap under the hero on laptops/tablets. Size the section to the
+       *scaled* artboard instead; the untransformed frame simply overflows it
+       invisibly (and the page already clips horizontal overflow). */
     .hero-v2 {
-        min-height: calc(var(--hero-v2-frame-h) * var(--grid-scale));
+        height: calc(var(--hero-v2-frame-h) * var(--grid-scale));
+        min-height: 0;
     }
     .hero-v2__frame {
         transform: scale(var(--grid-scale));
@@ -2365,11 +2371,11 @@ body.night-mode .footer-meta-copy {
     font-family: var(--font-sans);
     font-size: clamp(1.08rem, 1.85vw, 2rem);
     font-weight: var(--type-weight-medium);
-    line-height: 1;
+    line-height: 1.08;
     letter-spacing: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
     transform: translateY(14px) scale(0.78);
     transform-origin: left bottom;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
@@ -3202,6 +3208,8 @@ body.night-mode .mobile-menu-btn span {
     align-items: center;
     justify-content: center;
     gap: 40px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     transform: translateY(-100%);
     visibility: hidden;
     transition:
@@ -3271,6 +3279,26 @@ body.night-mode .mobile-menu-btn span {
 @media (max-width: 768px) {
     .navbar:has(.mobile-nav-overlay.active) .navbar__pill {
         visibility: hidden;
+    }
+}
+
+/* Short viewports (landscape phones, split-screen): centreing a fixed stack of
+   full-size links pushed the first/last items off-screen. Start from the top,
+   tighten the rhythm, and let the overlay scroll if it still runs out of room. */
+@media (max-height: 560px) {
+    .mobile-nav-overlay {
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 72px 24px 28px;
+    }
+
+    .mobile-nav-overlay .nav-item {
+        font-size: clamp(1.15rem, 4.4vh, 1.6rem);
+        padding: 7px 12px;
+    }
+
+    .mobile-nav-overlay__header {
+        top: 12px;
     }
 }
 
@@ -3357,7 +3385,7 @@ body.night-mode::before {
     }
 
     .work-container.bento-grid .work-card {
-        height: 36vh !important;
+        height: clamp(220px, 36vh, 380px) !important;
         aspect-ratio: auto;
         margin-bottom: 0;
     }
@@ -3527,6 +3555,12 @@ body.night-mode::before {
 
     .footer-meta-socials {
         gap: 16px;
+    }
+
+    /* Standard 44px touch targets for the social links. */
+    .footer-meta-social {
+        width: 44px;
+        height: 44px;
     }
 }
 

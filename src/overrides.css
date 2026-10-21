@@ -369,7 +369,9 @@ body.night-mode {
     position: fixed;
     bottom: 24px;
     right: 24px;
-    z-index: 10000;
+    /* Below the sticky header (1000), mobile menu (1100) and resume modal
+       (1400) so it can never float on top of those layers. */
+    z-index: 950;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -425,6 +427,30 @@ body.night-mode .under-construction-text {
 .under-construction-text span {
     font-size: 0.75rem;
     opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+    .under-construction-widget {
+        bottom: 12px;
+        right: 12px;
+        max-width: calc(100vw - 24px);
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 12px;
+    }
+
+    .under-construction-icon {
+        font-size: 1.25rem;
+    }
+
+    .under-construction-text strong {
+        font-size: 0.82rem;
+    }
+
+    .under-construction-text span {
+        font-size: 0.7rem;
+        line-height: 1.25;
+    }
 }
 
 @keyframes slideUpBounce {
@@ -524,7 +550,22 @@ body.night-mode .portfolio-toggle__btn.is-active {
     }
 
     .portfolio-toggle__btn {
-        padding: 6px 12px;
+        min-height: 40px;
+        padding: 9px 14px;
+    }
+}
+
+/* Coarse pointers can occur at any width (landscape phones, touch laptops).
+   Give the compact controls a comfortable 40–44px hit area there too. */
+@media (pointer: coarse) {
+    .portfolio-toggle__btn {
+        min-height: 40px;
+        padding: 9px 14px;
+    }
+
+    .footer-meta-social {
+        width: 44px;
+        height: 44px;
     }
 }
 
