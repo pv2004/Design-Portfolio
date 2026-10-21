@@ -35,7 +35,7 @@
          hero stamp + arrow are ready by first paint. The fonts need no preload
          entry because Vite fingerprints and emits them with the CSS. -->
     <link rel="preload" as="image" href="asset/hero-stamp-base.png" fetchpriority="high">
-    <link rel="preload" as="image" href="asset/hero-stamp-photo.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="asset/hero-stamp-photo.jpg" fetchpriority="high">
     <link rel="preload" as="image" href="asset/hero-arrow.svg" fetchpriority="high">
     <link rel="stylesheet" href="src/style.css">
     <link rel="stylesheet" href="src/overrides.css">
@@ -208,28 +208,14 @@
                     </div>
                 </div>
 
-                <!-- Postage-stamp portrait. Swap asset/hero-stamp-photo.svg with
+                <!-- Postage-stamp portrait. Swap asset/hero-stamp-photo.jpg with
                      your own photo for a personal touch. -->
                 <div class="hero-v2__stamp" aria-hidden="true">
                     <img class="hero-v2__stamp-base" src="asset/hero-stamp-base.png" alt="" width="404" height="516" fetchpriority="high" decoding="async">
                     <div class="hero-v2__stamp-photo-frame">
-                        <img class="hero-v2__stamp-photo" src="asset/hero-stamp-photo.svg" alt="" width="306" height="404" fetchpriority="high" decoding="async">
+                        <img class="hero-v2__stamp-photo" src="asset/hero-stamp-photo.jpg" alt="" width="306" height="404" fetchpriority="high" decoding="async">
                     </div>
                 </div>
-                <svg class="hero-v2__filters" width="0" height="0" aria-hidden="true" focusable="false">
-                    <filter id="hero-stamp-guilloche-filter" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-                        <feColorMatrix in="SourceGraphic" type="saturate" values="0" result="gray"/>
-                        <feComponentTransfer in="gray" result="mono">
-                            <feFuncR type="linear" slope="1.18" intercept="-0.05"/>
-                            <feFuncG type="linear" slope="1.18" intercept="-0.05"/>
-                            <feFuncB type="linear" slope="1.18" intercept="-0.05"/>
-                        </feComponentTransfer>
-                        <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="guilloche" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 380'%3E%3Crect width='300' height='380' fill='%23f4f4f4'/%3E%3Cg fill='none' stroke='%23262626' stroke-width='0.8' opacity='0.5'%3E%3Cellipse cx='150' cy='190' rx='146' ry='34'/%3E%3Cellipse cx='150' cy='190' rx='130' ry='52'/%3E%3Cellipse cx='150' cy='190' rx='112' ry='72'/%3E%3Cellipse cx='150' cy='190' rx='92' ry='92'/%3E%3Cellipse cx='150' cy='190' rx='72' ry='114'/%3E%3Cellipse cx='150' cy='190' rx='52' ry='136'/%3E%3C/g%3E%3Cg fill='none' stroke='%231a1a1a' stroke-width='0.7' opacity='0.38' transform='rotate(28 150 190)'%3E%3Cellipse cx='150' cy='190' rx='148' ry='38'/%3E%3Cellipse cx='150' cy='190' rx='130' ry='58'/%3E%3Cellipse cx='150' cy='190' rx='108' ry='78'/%3E%3Cellipse cx='150' cy='190' rx='86' ry='100'/%3E%3Cellipse cx='150' cy='190' rx='64' ry='122'/%3E%3C/g%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.75' opacity='0.5' transform='rotate(-24 150 190)'%3E%3Cellipse cx='150' cy='190' rx='142' ry='42'/%3E%3Cellipse cx='150' cy='190' rx='120' ry='62'/%3E%3Cellipse cx='150' cy='190' rx='98' ry='84'/%3E%3Cellipse cx='150' cy='190' rx='76' ry='106'/%3E%3C/g%3E%3C/svg%3E"/>
-                        <feBlend in="mono" in2="guilloche" mode="multiply" result="etched"/>
-                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="grain"/>
-                        <feBlend in="etched" in2="grain" mode="soft-light"/>
-                    </filter>
-                </svg>
             </div>
         </section>
 
